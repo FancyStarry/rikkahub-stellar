@@ -9,8 +9,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.baselineprofile)
 }
 
@@ -77,7 +75,10 @@ android {
         release {
             // 与官方 RikkaHub 并存安装: 官方使用 me.rerere.rikkahub, 本仓库的 release 用 .stellar 后缀
             applicationIdSuffix = ".stellar"
-            signingConfig = signingConfigs.getByName("release")
+            // 未提供正式签名(CI 无 secret)时回退到 debug 签名, 保证构建可完成;
+            // 代价是 debug 签名的包日后无法平滑升级到正式签名的安装包
+            signingConfig = signingConfigs.getByName("release").takeIf { it.storeFile != null }
+                ?: signingConfigs.getByName("debug")
             optimization {
                 enable = true
             }
@@ -227,10 +228,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3.adaptive.navigation3)
 
-    // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.crashlytics)
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
