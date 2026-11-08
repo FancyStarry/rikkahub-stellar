@@ -40,4 +40,9 @@ sealed class LocalToolOption {
     @Serializable
     @SerialName("phone_use")
     data object PhoneUse : LocalToolOption()
+
+    /** Stellar 特权 shell(`stellar_exec`), 需要装 Stellar 管理器并授权。 */
+    @Serializable
+    @SerialName("stellar")
+    data object Stellar : LocalToolOption()
 }

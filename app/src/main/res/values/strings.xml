@@ -1856,4 +1856,33 @@
   <string name="chat_message_tool_phone_use_open_app_name">Open app: %1$s</string>
   <string name="chat_message_tool_phone_use_list_apps">List apps</string>
   <string name="chat_message_tool_phone_use_wait">Wait %1$s seconds</string>
+
+  <!-- Stellar 特权 shell -->
+  <string name="setting_page_stellar">Stellar</string>
+  <string name="setting_page_stellar_desc">Run shell commands with Stellar privileges</string>
+  <string name="setting_stellar_title">Stellar</string>
+  <string name="setting_stellar_section_status">Status</string>
+  <string name="setting_stellar_status_manager">Stellar manager</string>
+  <string name="setting_stellar_status_manager_installed">Installed</string>
+  <string name="setting_stellar_status_manager_missing">Not installed (tap to download)</string>
+  <string name="setting_stellar_status_service">Service</string>
+  <string name="setting_stellar_status_service_running">Running (shell identity)</string>
+  <string name="setting_stellar_status_service_running_root">Running (root identity)</string>
+  <string name="setting_stellar_status_service_not_running">Not running (start it from the manager)</string>
+  <string name="setting_stellar_status_permission">Permission</string>
+  <string name="setting_stellar_status_permission_granted">Granted</string>
+  <string name="setting_stellar_status_permission_missing">Not granted (tap to request)</string>
+  <string name="setting_stellar_toast_permission_granted">Stellar permission granted</string>
+  <string name="setting_stellar_toast_permission_denied">Stellar permission denied</string>
+  <string name="setting_stellar_toast_service_not_running">Stellar service is not running. Start it from the Stellar manager first.</string>
+  <string name="setting_stellar_section_safety">Safety</string>
+  <string name="setting_stellar_auto_approve_title">Auto-approve stellar_exec</string>
+  <string name="setting_stellar_auto_approve_desc">Skip the confirmation dialog for every stellar_exec call. Catastrophic commands (rm -rf system roots, dd to block devices, mkfs, reboot, remounting system read-write) stay blocked regardless. Only enable this if you know what privilege level the Stellar service runs at — in root mode it hands root to the model.</string>
+  <string name="setting_stellar_section_help">About</string>
+  <string name="setting_stellar_help_what_title">What stellar_exec does</string>
+  <string name="setting_stellar_help_what_body">Lets the assistant run shell commands with the Stellar service identity. The privilege level depends on how the Stellar service was started: ADB mode is the same as `adb shell`, root mode (KernelSU/Magisk) is root. Useful for pm, settings, cmd and dumpsys. Every call needs your approval first.</string>
+  <string name="setting_stellar_help_how_title">How to get started</string>
+  <string name="setting_stellar_help_how_body">1. Install the Stellar manager and start its service (ADB or root). 2. Tap Permission above to grant RikkaHub access. 3. Enable stellar_exec in the assistant\'s local tools.</string>
+  <string name="assistant_page_local_tools_stellar_title">Stellar shell</string>
+  <string name="assistant_page_local_tools_stellar_desc">Run shell commands with Stellar privileges (level depends on how Stellar was started)</string>
 </resources>

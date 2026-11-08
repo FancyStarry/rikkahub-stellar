@@ -50,6 +50,8 @@ class LocalTools(
         )
     }
 
+    val stellarExecTool by lazy { buildStellarExecTool(context, settingsStore) }
+
     fun getTools(options: List<LocalToolOption>): List<Tool> {
         val tools = mutableListOf<Tool>()
         if (options.contains(LocalToolOption.JavascriptEngine)) {
@@ -80,6 +82,9 @@ class LocalTools(
         // 不支持的渠道和系统版本上，之前在别处开过（比如导入的备份）也不提供
         if (options.contains(LocalToolOption.PhoneUse) && PhoneUseManager.isSupported) {
             tools.add(phoneUseTool)
+        }
+        if (options.contains(LocalToolOption.Stellar)) {
+            tools.add(stellarExecTool)
         }
         return tools
     }

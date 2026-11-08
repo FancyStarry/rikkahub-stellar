@@ -84,6 +84,8 @@ data class Settings(
     val webServerJwtEnabled: Boolean = false,
     val webServerAccessPassword: String = "",
     val webServerLocalhostOnly: Boolean = false,
+    /** stellar_exec 是否免审批直接执行(默认否)。硬性拦截不受它影响, 见 StellarCommandGuard。 */
+    val stellarAutoApprove: Boolean = false,
     val backupReminderConfig: BackupReminderConfig = BackupReminderConfig(),
     val sponsorAlertDismissedAt: Int = 0,
 ) {

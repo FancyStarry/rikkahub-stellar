@@ -192,6 +192,11 @@ configurations.matching { it.name.endsWith("UnitTestRuntimeClasspath") }.configu
 
 dependencies {
     implementation(libs.quickjs)
+
+    // Stellar 特权 API(见 ../../适配方案.md): 坐标以 JitPack 实测为准, 文档里的
+    // `com.github.roro2239.Stellar-API:<版本>` 是简写, 真实 artifactId 是 api / provider
+    implementation("com.github.roro2239.Stellar-API:api:1.0.3")
+    implementation("com.github.roro2239.Stellar-API:provider:1.0.3")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.process)

@@ -108,6 +108,9 @@ class SettingsStore internal constructor(
         val NETWORK_SETTING = stringPreferencesKey("network_setting")
         val DEVELOPER_MODE = booleanPreferencesKey("developer_mode")
 
+        // Stellar 特权 shell
+        val STELLAR_AUTO_APPROVE = booleanPreferencesKey("stellar_auto_approve")
+
         // 模型选择
         val FAVORITE_MODELS = stringPreferencesKey("favorite_models")
         val SELECT_MODEL = stringPreferencesKey("chat_model")
