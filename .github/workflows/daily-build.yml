@@ -85,14 +85,19 @@ jobs:
 
       - name: Prepare build files
         run: |
-          # 解码base64编码的keystore文件
-          echo "${{ secrets.KEY_BASE64 }}" | base64 -d > app/app.key
+          # 本仓库已移除 Firebase, 不再需要 google-services.json。
+          # 签名 secret 均为可选: 未提供时 release 回退到 debug 签名, 构建仍可完成。
+          if [ -n "${{ secrets.KEY_BASE64 }}" ]; then
+            echo "${{ secrets.KEY_BASE64 }}" | base64 -d > app/app.key
+          else
+            echo "KEY_BASE64 未配置, 使用 debug 签名"
+          fi
 
-          # 写入签名配置到local.properties
-          echo "${{ secrets.SIGNING_CONFIG }}" > local.properties
-
-          # 写入Google Services配置
-          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
+          if [ -n "${{ secrets.SIGNING_CONFIG }}" ]; then
+            echo "${{ secrets.SIGNING_CONFIG }}" > local.properties
+          else
+            echo "SIGNING_CONFIG 未配置, 使用 debug 签名"
+          fi
 
       - name: Gradle Build
         run: |

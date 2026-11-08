@@ -46,6 +46,11 @@ Root 方式等同 root。
 - 设置项 `stellarAutoApprove`（默认关闭）用于关闭 `stellar_exec` 的逐次确认，不影响上述硬性拦截；
 - 助手本地工具页新增 `Stellar` 开关，开启时按需发起授权。
 
+### 移除 Firebase
+
+移除 Firebase Analytics 与 Crashlytics 的 Gradle 插件、依赖及对应 Koin 绑定，构建不再需要
+`google-services.json`。副作用是不再上报崩溃与使用统计。
+
 ### 平台配置
 
 - `AndroidManifest.xml` 声明 `StellarProvider`（`authorities = ${applicationId}.stellar`）与
@@ -66,8 +71,10 @@ export ANDROID_HOME=/path/to/android-sdk
 
 构建产物位于 `app/build/outputs/apk/github/debug/`。
 
-上游将 `app/google-services.json` 排除在版本控制之外，本地构建需自行提供，否则
-`:app:processGithubDebugGoogleServices` 将失败。
+本仓库已移除 Firebase，构建不再需要 `google-services.json`。release 构建在未提供签名配置时
+回退到 debug 签名（通过 `local.properties` 的 `storeFile` 等字段配置正式签名）。
+
+推送到 `master` 会触发 GitHub Actions 构建，并发布为 `nightly` 预发布版本。
 
 ## 许可
 
