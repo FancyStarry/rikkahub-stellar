@@ -6,6 +6,10 @@ on:
     - cron: '0 9,18 * * *'
   # 也支持手动触发
   workflow_dispatch:
+  # 推送到 master 时立即构建: 本仓库为个人构建, 需要提交后即时出包
+  push:
+    branches:
+      - master
 
 jobs:
   # 检查过去 24 小时内是否有新提交，没有则跳过构建，避免重复打包
