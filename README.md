@@ -74,7 +74,8 @@ export ANDROID_HOME=/path/to/android-sdk
 本仓库已移除 Firebase，构建不再需要 `google-services.json`。release 构建在未提供签名配置时
 回退到 debug 签名（通过 `local.properties` 的 `storeFile` 等字段配置正式签名）。
 
-推送到 `master` 会触发 GitHub Actions 构建，并发布为 `nightly` 预发布版本。
+推送到 `master` 会触发 GitHub Actions 构建，并以 `v<版本号>` 为 tag 发布正式版本；
+同一版本号重复推送时，更新既有 Release 的产物。
 
 ## 许可
 

@@ -1,43 +1,15 @@
-name: Daily Build
+name: Build & Release
 
 on:
-  # 每天 UTC 09:00、18:00 触发（北京时间 17:00、次日 02:00）
-  schedule:
-    - cron: '0 9,18 * * *'
-  # 也支持手动触发
-  workflow_dispatch:
-  # 推送到 master 时立即构建: 本仓库为个人构建, 需要提交后即时出包
+  # 仅由推送触发: 本仓库为个人构建, 每次推送到 master 即出包
   push:
     branches:
       - master
+  # 保留手动触发, 便于不产生提交的情况下重跑
+  workflow_dispatch:
 
 jobs:
-  # 检查过去 24 小时内是否有新提交，没有则跳过构建，避免重复打包
-  check:
-    runs-on: ubuntu-latest
-    outputs:
-      should_build: ${{ steps.check.outputs.should_build }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check for recent commits
-        id: check
-        run: |
-          # 手动触发时无条件构建
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "should_build=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          # 定时触发：仅当过去 24 小时内有新提交才构建
-          if [ -n "$(git log --since='24 hours ago' --oneline)" ]; then
-            echo "should_build=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_build=false" >> "$GITHUB_OUTPUT"
-            echo "过去 24 小时无新提交，跳过构建"
-          fi
-
   build:
-    needs: check
-    if: needs.check.outputs.should_build == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write   # 发布 Release 需要写权限
@@ -104,18 +76,28 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleGithubRelease
 
-      # 把 APK 直接发布为 Prerelease，用户点链接即可下载单个 apk，无需登录、无需解压
-      - name: Publish nightly prerelease
+      - name: Resolve version
+        id: version
+        run: |
+          version=$(grep -m1 -oP 'versionName = "\K[^"]+' app/build.gradle.kts)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "解析到版本号: $version"
+
+      # 发布为正式版本: 同一版本号重复推送时, 更新既有 Release 的产物
+      - name: Publish release
         uses: softprops/action-gh-release@v2
         if: success()
         with:
-          tag_name: nightly            # 固定 tag，每晚覆盖同一个「最新每日构建」
-          name: Nightly Build
-          prerelease: true
+          tag_name: v${{ steps.version.outputs.version }}
+          name: RikkaHub Stellar v${{ steps.version.outputs.version }}
+          prerelease: false
+          make_latest: true
           body: |
-            自动每日构建（commit `${{ github.sha }}`）
+            RikkaHub Stellar 个人构建, 基于上游 RikkaHub v${{ steps.version.outputs.version }}, 集成 Stellar 特权 API。
 
-            > ⚠️ 开发版本，可能不稳定，仅供测试。
+            - 提交: `${{ github.sha }}`
+            - 包名: `me.rerere.rikkahub.stellar`(可与官方版本并存安装)
+            - 相对上游的改动: 见仓库 README
           # mapping.txt 用于还原混淆后的崩溃堆栈，所有 ABI 的 APK 共用这一份
           files: |
             app/build/outputs/apk/github/release/*.apk
