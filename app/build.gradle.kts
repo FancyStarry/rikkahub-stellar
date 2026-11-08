@@ -75,6 +75,8 @@ android {
 
     buildTypes {
         release {
+            // 与官方 RikkaHub 并存安装: 官方使用 me.rerere.rikkahub, 本仓库的 release 用 .stellar 后缀
+            applicationIdSuffix = ".stellar"
             signingConfig = signingConfigs.getByName("release")
             optimization {
                 enable = true
