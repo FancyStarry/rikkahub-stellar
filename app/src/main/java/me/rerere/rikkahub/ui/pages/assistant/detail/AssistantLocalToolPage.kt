@@ -28,6 +28,7 @@ import me.rerere.ui.toast.ToastType
 import me.rerere.hugeicons.HugeIcons
 import me.rerere.hugeicons.stroke.Calendar03
 import me.rerere.hugeicons.stroke.ChartLineData01
+import me.rerere.hugeicons.stroke.Code
 import me.rerere.hugeicons.stroke.ClipboardPaste
 import me.rerere.hugeicons.stroke.Clock01
 import me.rerere.hugeicons.stroke.JavaScript
@@ -37,6 +38,7 @@ import me.rerere.hugeicons.stroke.VolumeHigh
 import me.rerere.rikkahub.R
 import me.rerere.rikkahub.data.ai.tools.local.LocalToolOption
 import me.rerere.rikkahub.data.model.Assistant
+import me.rerere.rikkahub.data.stellar.StellarManager
 import me.rerere.rikkahub.ui.components.nav.BackButton
 import me.rerere.rikkahub.ui.components.ui.CardGroup
 import me.rerere.rikkahub.ui.components.ui.CardGroupIcon
@@ -96,6 +98,8 @@ private fun AssistantLocalToolContent(
     val toaster = LocalToaster.current
     val permissionRequiredText =
         stringResource(R.string.assistant_page_local_tools_screen_time_permission_required)
+    val stellarServiceNotRunningText =
+        stringResource(R.string.setting_stellar_toast_service_not_running)
 
     val calendarPermissionState = rememberPermissionState(
         permissions = setOf(
@@ -123,6 +127,15 @@ private fun AssistantLocalToolContent(
         if (enabled && option == LocalToolOption.Calendar && !calendarPermissionState.allPermissionsGranted) {
             calendarPermissionState.requestPermissions()
             return
+        }
+        // 打开 stellar_exec 时顺带发起一次授权(等价于在 设置 -> Stellar 点"权限"),
+        // 让用户在真正要用的时刻就能完成授权; 服务没跑就只提示, 引导去设置页。
+        if (enabled && option == LocalToolOption.Stellar) {
+            if (!StellarManager.isBinderAlive()) {
+                toaster.show(message = stellarServiceNotRunningText, type = ToastType.Warning)
+            } else if (!StellarManager.isPermissionGranted()) {
+                StellarManager.requestPermission()
+            }
         }
         val newLocalTools = if (enabled) {
             assistant.localTools + option
@@ -221,6 +234,12 @@ private fun AssistantLocalToolContent(
                 icon = HugeIcons.ChartLineData01,
                 title = R.string.assistant_page_local_tools_chart_display_title,
                 description = R.string.assistant_page_local_tools_chart_display_desc,
+            )
+            toolItem(
+                option = LocalToolOption.Stellar,
+                icon = HugeIcons.Code,
+                title = R.string.assistant_page_local_tools_stellar_title,
+                description = R.string.assistant_page_local_tools_stellar_desc,
             )
         }
     }

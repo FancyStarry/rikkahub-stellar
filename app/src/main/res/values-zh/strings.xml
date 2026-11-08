@@ -1823,4 +1823,33 @@ mDNS 地址：使用 .local 主机名，同一网络中的其他设备可通过�
   <string name="chat_page_select_all">全选</string>
   <string name="chat_page_deselect_all">取消全选</string>
   <string name="chat_page_clear_selection">清除选择</string>
+
+  <!-- Stellar 特权 shell -->
+  <string name="setting_page_stellar">Stellar</string>
+  <string name="setting_page_stellar_desc">用 Stellar 特权执行 shell 命令</string>
+  <string name="setting_stellar_title">Stellar</string>
+  <string name="setting_stellar_section_status">状态</string>
+  <string name="setting_stellar_status_manager">Stellar 管理器</string>
+  <string name="setting_stellar_status_manager_installed">已安装</string>
+  <string name="setting_stellar_status_manager_missing">未安装（点击前往下载）</string>
+  <string name="setting_stellar_status_service">服务</string>
+  <string name="setting_stellar_status_service_running">运行中（shell 身份）</string>
+  <string name="setting_stellar_status_service_running_root">运行中（root 身份）</string>
+  <string name="setting_stellar_status_service_not_running">未运行（请在管理器中启动）</string>
+  <string name="setting_stellar_status_permission">授权</string>
+  <string name="setting_stellar_status_permission_granted">已授予</string>
+  <string name="setting_stellar_status_permission_missing">未授予（点击申请）</string>
+  <string name="setting_stellar_toast_permission_granted">已授予 Stellar 权限</string>
+  <string name="setting_stellar_toast_permission_denied">Stellar 权限被拒绝</string>
+  <string name="setting_stellar_toast_service_not_running">Stellar 服务未运行，请先在 Stellar 管理器中启动服务</string>
+  <string name="setting_stellar_section_safety">安全</string>
+  <string name="setting_stellar_auto_approve_title">自动审批 stellar_exec</string>
+  <string name="setting_stellar_auto_approve_desc">开启后模型调用 stellar_exec 不再逐次弹确认框。破坏性命令（rm -rf 系统根目录、dd 写块设备、mkfs、重启/关机、把系统分区重挂为可写）仍会被硬性拦截。请确认你清楚 Stellar 服务的权限等级——Root 模式下等于把 root 交给模型。</string>
+  <string name="setting_stellar_section_help">说明</string>
+  <string name="setting_stellar_help_what_title">stellar_exec 能做什么</string>
+  <string name="setting_stellar_help_what_body">让助手以 Stellar 服务的身份执行 shell 命令。权限等级取决于 Stellar 服务的启动方式：ADB 方式等同 `adb shell`，Root 方式（KernelSU/Magisk）就是 root。适合 pm、settings、cmd、dumpsys 这类操作。每次调用都需要你先确认。</string>
+  <string name="setting_stellar_help_how_title">怎么开始用</string>
+  <string name="setting_stellar_help_how_body">1. 安装 Stellar 管理器并启动服务（ADB 或 Root 方式）。2. 点击上面的「授权」给 RikkaHub 授权。3. 在助手的本地工具里打开 stellar_exec 开关。</string>
+  <string name="assistant_page_local_tools_stellar_title">Stellar 特权 shell</string>
+  <string name="assistant_page_local_tools_stellar_desc">用 Stellar 特权执行 shell 命令（等级取决于 Stellar 启动方式）</string>
 </resources>
