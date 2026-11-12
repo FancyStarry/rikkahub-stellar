@@ -166,6 +166,7 @@ private val SAMPLE = Settings(
     webServerJwtEnabled = true,
     webServerAccessPassword = "secret",
     webServerLocalhostOnly = true,
+    stellarAutoApprove = true,
     backupReminderConfig = BackupReminderConfig(enabled = true),
     sponsorAlertDismissedAt = 7,
 )
@@ -218,6 +219,7 @@ private val STORED_KEYS = setOf(
     "web_server_jwt_enabled",
     "web_server_access_password",
     "web_server_localhost_only",
+    "stellar_auto_approve",
     "mode_injections",
     "lorebooks",
     "quick_messages",
